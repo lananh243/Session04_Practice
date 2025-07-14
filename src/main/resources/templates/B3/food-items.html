@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Danh sách thực phẩm</title>
+</head>
+<body>
+<h2>Danh sách thực phẩm</h2>
+
+<!-- Form tìm kiếm + lọc -->
+<form th:action="@{/food-items}" method="get">
+  <input type="text" name="name" placeholder="Tìm theo tên" th:value="${selectedName}">
+
+  <select name="categoryId">
+    <option value="" th:selected="${selectedCategoryId == null}">-- Tất cả danh mục --</option>
+    <option th:each="cat : ${categories}"
+            th:value="${cat.id}"
+            th:text="${cat.categoryName}"
+            th:selected="${selectedCategoryId == cat.id}"></option>
+  </select>
+
+
+  <button type="submit">Tìm kiếm</button>
+  <a th:href="@{/food-items}">Làm mới</a>
+  <a th:href="@{/food-items/add}">+ Thêm mới</a>
+</form>
+
+<!-- Danh sách -->
+<table border="1" cellpadding="8" cellspacing="0">
+  <thead>
+  <tr>
+    <th>STT</th>
+    <th>Tên</th>
+    <th>Danh mục</th>
+    <th>Giá</th>
+    <th>Hạn sử dụng</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="item, stat : ${foodItems.content}">
+    <td th:text="${stat.index + 1 + (foodItems.number * foodItems.size)}"></td>
+    <td th:text="${item.name}"></td>
+    <td th:text="${item.category.categoryName}"></td>
+    <td th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></td>
+    <td th:text="${item.expirationDate}"></td>
+  </tr>
+  <tr th:if="${foodItems.totalElements == 0}">
+    <td colspan="5">Không có thực phẩm nào được tìm thấy.</td>
+  </tr>
+  </tbody>
+</table>
+
+<!-- Phân trang -->
+<div>
+  <a th:if="${foodItems.hasPrevious()}"
+     th:href="@{/food-items(name=${selectedName}, categoryId=${selectedCategoryId}, page=${currentPage - 1})}">« Trước</a>
+
+  <span>Trang [[${currentPage + 1}]] / [[${totalPages}]]</span>
+
+  <a th:if="${foodItems.hasNext()}"
+     th:href="@{/food-items(name=${selectedName}, categoryId=${selectedCategoryId}, page=${currentPage + 1})}">Sau »</a>
+</div>
+
+</body>
+</html>

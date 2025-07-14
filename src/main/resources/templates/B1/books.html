@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách sách</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+<div class="max-w-6xl mx-auto px-4 py-8">
+    <h2 class="text-2xl font-bold mb-6 text-center">📚 Danh sách sách</h2>
+
+    <!-- FORM TÌM KIẾM -->
+    <form method="get" th:action="@{/books}" class="mb-6 flex gap-2 justify-center">
+        <input type="text" name="title" th:value="${title}"
+               placeholder="Tìm theo tên sách..."
+               class="w-1/2 px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"/>
+
+        <button type="submit"
+                class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">
+            Tìm kiếm
+        </button>
+        <a th:href="@{/books/add}"
+           class="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition">
+            ➕ Thêm sách
+        </a>
+    </form>
+
+    <!-- DANH SÁCH SÁCH -->
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white rounded-lg shadow">
+            <thead class="bg-gray-200 text-gray-700">
+            <tr>
+                <th class="py-3 px-4 text-left">STT</th>
+                <th class="py-3 px-4 text-left">Tên sách</th>
+                <th class="py-3 px-4 text-left">Tác giả</th>
+                <th class="py-3 px-4 text-left">Nhà xuất bản</th>
+                <th class="py-3 px-4 text-left">Năm xuất bản</th>
+                <th class="py-3 px-4 text-left">Hành động</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="book, loop : ${books}" class="border-t hover:bg-gray-50">
+                <td class="py-2 px-4" th:text="${loop.index + 1 + currentPage * 5}"></td>
+                <td class="py-2 px-4" th:text="${book.title}"></td>
+                <td class="py-2 px-4" th:text="${book.author}"></td>
+                <td class="py-2 px-4" th:text="${book.publisher}"></td>
+                <td class="py-2 px-4" th:text="${book.year}"></td>
+                <td class="py-2 px-4 flex gap-2">
+                    <a th:href="@{'/books/edit/' + ${book.bookId}}"
+                       class="text-white bg-yellow-500 hover:bg-yellow-600 px-3 py-1 rounded transition">
+                        Sửa
+                    </a>
+                    <a th:href="@{'/books/delete/' + ${book.bookId}}"
+                       onclick="return confirm('Bạn có chắc chắn muốn xóa sách này không?');"
+                       class="text-white bg-red-500 hover:bg-red-600 px-3 py-1 rounded transition">
+                        Xóa
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- PHÂN TRANG -->
+    <div class="flex items-center justify-center space-x-4 mt-6 text-sm">
+
+        <a th:href="@{/books(page=${currentPage - 1}, title=${title})}"
+           th:classappend="${currentPage == 0} ? 'pointer-events-none bg-gray-200 text-gray-400' : 'bg-gray-800 text-white hover:bg-gray-700'"
+           class="px-4 py-2 rounded transition font-medium">
+            « Trang trước
+        </a>
+
+        <span class="text-gray-700 font-medium">
+        Trang <span th:text="${currentPage + 1}"></span> / <span th:text="${books.totalPages}"></span>
+    </span>
+
+        <a th:href="@{/books(page=${currentPage + 1}, title=${title})}"
+           th:classappend="${currentPage + 1 >= books.totalPages} ? 'pointer-events-none bg-gray-200 text-gray-400' : 'bg-gray-800 text-white hover:bg-gray-700'"
+           class="px-4 py-2 rounded transition font-medium">
+            Trang sau »
+        </a>
+
+    </div>
+
+</div>
+</body>
+</html>

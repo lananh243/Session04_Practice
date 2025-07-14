@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add flight</title>
+</head>
+<body>
+<h3>Thêm mới chuyến bay</h3>
+<form th:action="@{/flights/add}" th:object="${flight}" method="post">
+    <label for="flightNumber">Số hiệu chuyến bay</label>
+    <input type="text" name="flightNumber" id="flightNumber" th:field="*{flightNumber}">
+    <br>
+    <label for="departure">Điểm khỏi hành</label>
+    <input type="text" name="departure" id="departure" th:field="*{departure}">
+    <br>
+    <label for="destination">Điểm đến</label>
+    <input type="text" name="destination" id="destination" th:field="*{destination}">
+    <br>
+    <label for="price">Điểm đến</label>
+    <input type="number" name="price" id="price" th:field="*{price}">
+    <br>
+    <button type="submit">Thêm</button>
+</form>
+</body>
+</html>

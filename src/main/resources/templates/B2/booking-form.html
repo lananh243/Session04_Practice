@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Booking</title>
+</head>
+<body>
+<h3>Đặt vé</h3>
+<form th:action="@{/bookings/add}" th:object="${booking}" method="post">
+    <input type="hidden" th:field="*{flight.flightId}">
+    <p class="mb-2">Từ <b th:text="${flight.departure}"></b> đến <b th:text="${flight.destination}"></b></p>
+    <label for="customerName">Tên khách hàng</label>
+    <input type="text" name="customerName" id="customerName" th:field="*{customerName}">
+    <br>
+    <label for="customerPhone">Số điện thoại</label>
+    <input type="text" name="customerPhone" id="customerPhone" th:field="*{customerPhone}">
+    <br>
+    <label for="bookingTime">Thời gian đặt vé</label>
+    <input type="datetime-local" name="bookingTime" id="bookingTime" th:field="*{bookingTime}">
+    <br>
+    <button type="submit">Xác nhận đặt vé</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cập nhật</title>
+</head>
+<body>
+<h3>Cập nhật sách</h3>
+<form th:action="@{/books/add}" th:object="${book}" method="post">
+    <input type="hidden" th:field="*{bookId}">
+    <br>
+    <label for="title">Tên sách</label>
+    <input type="text" name="title" id="title" th:field="*{title}">
+    <br>
+    <label for="author">Tác giả</label>
+    <input type="text" name="author" id="author" th:field="*{author}">
+    <br>
+    <label for="publisher">Nhà xuất bản</label>
+    <input type="text" name="publisher" id="publisher" th:field="*{publisher}">
+    <br>
+    <label for="year">Năm xuất bản</label>
+    <input type="number" name="year" id="year" th:field="*{year}">
+    <br>
+    <button type="submit">Cập nhật</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <title>Danh sách đặt vé</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 p-8">
+<h3 class="text-2xl font-bold mb-6 text-center text-blue-700">Danh sách đặt vé</h3>
+
+<div class="overflow-x-auto">
+  <table class="min-w-full border border-gray-300 bg-white shadow-md rounded-lg">
+    <thead class="bg-gray-100 text-gray-700">
+    <tr>
+      <th class="py-2 px-4 border-b">STT</th>
+      <th class="py-2 px-4 border-b">Chuyến bay</th>
+      <th class="py-2 px-4 border-b">Tên khách hàng</th>
+      <th class="py-2 px-4 border-b">Số điện thoại</th>
+      <th class="py-2 px-4 border-b">Thời gian đặt vé</th>
+      <th class="py-2 px-4 border-b">Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="booking, loop : ${bookings}" class="hover:bg-gray-50">
+      <td class="py-2 px-4 border-b text-center" th:text="${loop.index + 1 + currentPage * 5}"></td>
+      <td class="py-2 px-4 border-b" th:text="${booking.flight.flightNumber}"></td>
+      <td class="py-2 px-4 border-b" th:text="${booking.customerName}"></td>
+      <td class="py-2 px-4 border-b" th:text="${booking.customerPhone}"></td>
+      <td class="py-2 px-4 border-b" th:text="${#temporals.format(booking.bookingTime, 'dd/MM/yyyy')}"></td>
+      <td class="py-2 px-4 border-b text-center">
+        <a th:if="${booking.status.name() == 'BOOKED'}"
+           th:href="@{'/bookings/cancel/' + ${booking.bookingId}}"
+           onclick="return confirm('Bạn có chắc muốn hủy vé này không?')">
+          <button class="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded">
+            Hủy vé
+          </button>
+        </a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<!-- PHÂN TRANG -->
+<div class="flex items-center justify-center space-x-4 mt-6 text-sm">
+
+  <a th:href="@{/bookings(page=${currentPage - 1})}"
+     th:classappend="${currentPage == 0} ? 'pointer-events-none bg-gray-200 text-gray-400' : 'bg-gray-800 text-white hover:bg-gray-700'"
+     class="px-4 py-2 rounded transition font-medium">
+    « Trang trước
+  </a>
+
+  <span class="text-gray-700 font-medium">
+        Trang <span th:text="${currentPage + 1}"></span> / <span th:text="${bookings.totalPages}"></span>
+    </span>
+
+  <a th:href="@{/bookings(page=${currentPage + 1})}"
+     th:classappend="${currentPage + 1 >= bookings.totalPages} ? 'pointer-events-none bg-gray-200 text-gray-400' : 'bg-gray-800 text-white hover:bg-gray-700'"
+     class="px-4 py-2 rounded transition font-medium">
+    Trang sau »
+  </a>
+
+</div>
+</body>
+</html>
