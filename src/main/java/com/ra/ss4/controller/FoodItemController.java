@@ -65,4 +65,24 @@ public class FoodItemController {
         foodItemService.save(foodItem);
         return "redirect:/food-items";
     }
+
+    @GetMapping("/edit/{id}")
+    public String editFoodItem(@PathVariable Integer id, Model model){
+        FoodItem foodItem = foodItemService.findById(id);
+        model.addAttribute("foodItem", foodItem);
+        model.addAttribute("categories", categoryService.findAll());
+        return "B3/food-item-edit";
+    }
+
+    @PostMapping("/edit")
+    public String editFoodItem(FoodItem foodItem){
+        foodItemService.save(foodItem);
+        return "redirect:/food-items";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteFoodItem(@PathVariable Integer id){
+        foodItemService.delete(id);
+        return "redirect:/food-items";
+    }
 }

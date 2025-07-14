@@ -2,6 +2,7 @@ package com.ra.ss4.model.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -26,5 +27,6 @@ public class FoodItem {
     @Column(nullable = false)
     private Double price;
 
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate expirationDate;
 }

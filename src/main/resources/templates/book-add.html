@@ -26,7 +26,7 @@
     <label>Thể loại:</label>
     <select th:field="*{categoryBook.cateBookId}" required>
         <option th:each="cate : ${categoryBook}"
-                th:value="${cate}"
+                th:value="${cate.cateBookId}"
                 th:text="${cate.cateBookName}">
         </option>
     </select><br/><br/>

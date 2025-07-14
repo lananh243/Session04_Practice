@@ -5,10 +5,7 @@ import com.ra.ss4.service.CategoryBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,9 +16,11 @@ public class CategoryBookController {
     private CategoryBookService categoryBookService;
 
     @GetMapping
-    public String categories(Model model) {
-        List<CategoryBook> categoryBooks = categoryBookService.getCategoryBooks();
+    public String categories(@RequestParam(required = false) String categoryBookName,
+                             Model model) {
+        List<CategoryBook> categoryBooks = categoryBookService.getCategoryBooks(categoryBookName);
         model.addAttribute("categoryBooks", categoryBooks);
+        model.addAttribute("categoryBookName", categoryBookName);
         return "category-list";
     }
 
@@ -47,6 +46,12 @@ public class CategoryBookController {
     @PostMapping("/edit")
     public String edit(CategoryBook categoryBook){
         categoryBookService.updateCategoryBook(categoryBook);
+        return "redirect:/category";
+    }
+
+    @GetMapping("/delete/{cateBookId}")
+    public String delete(@PathVariable("cateBookId") String cateBookId){
+        categoryBookService.deleteCategoryBookById(cateBookId);
         return "redirect:/category";
     }
 }

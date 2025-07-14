@@ -37,7 +37,7 @@ public class BookController {
     @GetMapping("/add")
     public String formAddBook(Model model) {
         model.addAttribute("book", new Book());
-        model.addAttribute("categoryBook", categoryBookService.getCategoryBooks());
+        model.addAttribute("categoryBook", categoryBookService.findAll());
         return "book-add";
     }
 
@@ -53,7 +53,7 @@ public class BookController {
     public String formEditBook(@PathVariable("id") Integer id, Model model) {
         Book book = bookService.getBookById(id);
         model.addAttribute("book", book);
-        model.addAttribute("categoryBook", categoryBookService.getCategoryBooks());
+        model.addAttribute("categoryBook", categoryBookService.findAll());
         return "book-edit";
     }
 

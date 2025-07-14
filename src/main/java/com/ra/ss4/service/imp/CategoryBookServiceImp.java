@@ -15,7 +15,15 @@ public class CategoryBookServiceImp implements CategoryBookService {
     private CategoryBookRepository categoryBookRepo;
 
     @Override
-    public List<CategoryBook> getCategoryBooks() {
+    public List<CategoryBook> getCategoryBooks(String categoryBookName) {
+        if (categoryBookName == null || categoryBookName.trim().isEmpty()) {
+            return categoryBookRepo.findAll();
+        }
+        return categoryBookRepo.findCategoryBooksByCateBookNameContains(categoryBookName);
+    }
+
+    @Override
+    public List<CategoryBook> findAll() {
         return categoryBookRepo.findAll();
     }
 

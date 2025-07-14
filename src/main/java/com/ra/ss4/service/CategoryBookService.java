@@ -5,7 +5,8 @@ import com.ra.ss4.model.entity.CategoryBook;
 import java.util.List;
 
 public interface CategoryBookService {
-    List<CategoryBook> getCategoryBooks();
+    List<CategoryBook> getCategoryBooks(String categoryBookName);
+    List<CategoryBook> findAll();
     boolean insertCategoryBook(CategoryBook categoryBook);
     boolean updateCategoryBook(CategoryBook categoryBook);
     boolean deleteCategoryBookById(String cateBookId);

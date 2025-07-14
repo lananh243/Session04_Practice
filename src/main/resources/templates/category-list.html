@@ -13,6 +13,12 @@
 <body>
 <div class="container">
     <h1>LIST CATEGORY BOOKS</h1>
+    <form th:action="@{/category}" method="get" class="form-inline mb-3">
+        <input type="text" name="categoryBookName" class="form-control mr-2" placeholder="Tìm theo tên danh mục"
+               th:value="${categoryBookName}">
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+        <a th:href="@{/category}" class="btn btn-secondary ml-2">Làm mới</a>
+    </form>
     <table class="table table-bordered table-tripped">
         <thead>
         <th>Category Book Id</th>
@@ -29,7 +35,13 @@
             
             </td>
             <td>
-                <a href=""></a>
+                <a th:href="@{'/category/edit/' + ${c.cateBookId}}">
+                    <button>Sửa</button>
+                </a>
+                <a th:href="@{'/category/delete/' + ${c.cateBookId}}"
+                   onclick="return confirm('Bạn có chắc chắn muốn xóa danh mục này không?');">
+                    <button>Xóa</button>
+                </a>
             </td>
         </tr>
         </tbody>

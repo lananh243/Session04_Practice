@@ -33,6 +33,7 @@
     <th>Danh mục</th>
     <th>Giá</th>
     <th>Hạn sử dụng</th>
+    <th>Hành động</th>
   </tr>
   </thead>
   <tbody>
@@ -41,7 +42,17 @@
     <td th:text="${item.name}"></td>
     <td th:text="${item.category.categoryName}"></td>
     <td th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></td>
-    <td th:text="${item.expirationDate}"></td>
+    <td th:text="${#temporals.format(item.expirationDate, 'dd/MM/yyyy')}"></td>
+
+    <td>
+      <a th:href="@{'/food-items/edit/' + ${item.id}}">
+        <button>Sửa</button>
+      </a>
+      <a th:href="@{'/food-items/delete/' + ${item.id}}"
+         onclick="return confirm('Bạn có chắc chắn muốn xóa thực phẩm này không?');">
+        <button>Xóa</button>
+      </a>
+    </td>
   </tr>
   <tr th:if="${foodItems.totalElements == 0}">
     <td colspan="5">Không có thực phẩm nào được tìm thấy.</td>
